@@ -1,1 +1,0 @@
-# 14-ali-MVC-blog
