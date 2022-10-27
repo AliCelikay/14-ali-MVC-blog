@@ -1,4 +1,3 @@
-// file does sign up and log in functionality
 const router = require('express').Router();
 const { User } = require('../../models');
 
