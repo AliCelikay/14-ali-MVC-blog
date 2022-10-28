@@ -1,0 +1,13 @@
+/* main.handlebars */
+.hero{
+    height: 90px;
+}
+
+.title{
+    border-style: solid;
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    border-radius: 15px;
+    box-shadow: 10px 10px 5px #aaaaaa;
+}

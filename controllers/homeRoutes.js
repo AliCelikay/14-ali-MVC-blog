@@ -1,7 +1,7 @@
 const router = require('express').Router();
 // deconstructing from models
 const { Comment, Post, User } = require('../models');
-// const withAuth = require('../utils/auth.js');
+const withAuth = require('../utils/auth');
 
 // hompage route
 router.get('/', async (req, res) => {
@@ -17,13 +17,12 @@ router.get('/', async (req, res) => {
     });
 
     // Serialize data so the template can read it, return data that we only asked for
-    const posts = postsData.map((post) => posts.get({ plain: true }));
+    const posts = postsData.map((posts) => posts.get({ plain: true }));
 
     // Pass serialized data and session flag into template
     // (2) then rendering and checking if logged in
     res.render('all-posts', {
-      // render homepage from html handle bars and pass in { stuff }...
-      // why is this plural and lowercase?
+      // render all-posts from html handle bars and pass in posts from the database and make sure user logged in
       posts,
       logged_in: req.session.logged_in
     });
@@ -33,7 +32,8 @@ router.get('/', async (req, res) => {
 });
 
 // dashboard route
-router.get('/dashboard', async (req, res) => {
+// withAuth will redirect to login/signup if not logged in/signedup 
+router.get('/dashboard', withAuth, async (req, res) => {
   try {
     const postsData = await Post.findAll({
       include: [
@@ -73,6 +73,33 @@ router.get('/signup', (req, res) => {
     return;
   }
   res.render('signup')
+});
+
+// route for 1 post when user clicks on
+// This route must be below the login/signup why???
+router.get('/:postId', withAuth, async (req, res) => {
+  try{
+    const postData = await Post.findByPk(req.params.postId, {
+      include : [{
+        model: User,
+      },
+      {
+        model: Comment,
+      },
+    ]})
+
+    const post = postData.map((post) => post.get({ plaine: true}))
+    const comment = postData.comments.map((comment) => comment.get({ plain: true}))
+    
+    res.render('single-post', {
+      post,
+      comment,
+      logged_in: req.session.logged_in
+    })
+  }
+  catch (err){
+    res.status(500).json(err);
+  }
 });
 
 module.exports = router;
