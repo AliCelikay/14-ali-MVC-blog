@@ -42,14 +42,14 @@ router.get('/dashboard', withAuth, async (req, res) => {
         },
       ],
       // to specific user dashboard
-      where: {
-        user_id: req.session.user_id
-      }
+      // where: {
+      //   user_id: req.session.user_id
+      // }
     });
 
     const userPosts = postsData.map((posts) => posts.get({ plain: true }));
-
-    res.render('all-posts-admin', {
+    console.log(userPosts);
+    res.render('all-post-admin', {
       layout: 'dashboard',
       userPosts,
       logged_in: req.session.logged_in
@@ -90,6 +90,11 @@ router.get('/:postId', withAuth, async (req, res) => {
 
     const post = postData.map((post) => post.get({ plaine: true}))
     const comment = postData.comments.map((comment) => comment.get({ plain: true}))
+
+    if (!post) {
+      res.status(404).json({ message: 'No post found with that ID.' });
+      return;
+  }
     
     res.render('single-post', {
       post,
