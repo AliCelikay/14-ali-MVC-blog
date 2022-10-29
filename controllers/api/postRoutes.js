@@ -6,13 +6,13 @@ const withAuth = require('../../utils/auth');
 
 // route to create a new post
 router.post('/', withAuth, async (req, res) => {
-    try{
+    try {
         const newPost = await Post.create({
             ...req.body,
             // title: req.body.title,
             // body: req.body.body,
         });
-        
+
         res.status(200).json(newPost);
     }
     catch (err) {
@@ -20,30 +20,11 @@ router.post('/', withAuth, async (req, res) => {
     }
 })
 
-// router.get('/userPosts', withAuth, async (req, res) => {
-//     const posts = await Post.findAll()
-//     const userPosts = await posts.map((post) => post.get({plain:true}));
 
-//     res.render('all-post-admin'), {
-
-//     }
-
-//     const usersSaved = await Character.findAll({where: {
-//       user_id: req.session.user_id,
-//     }});
-//     const savedCharacters = await usersSaved.map(char=>char.get({plain: true}));
-//     console.log(savedCharacters);
-  
-//     res.render('savedFeatures', {
-//       logged_in: true,
-//       savedCharacters
-//     })
-//   })
-// })
 
 // route to delete a post
 router.delete('/:id', withAuth, async (req, res) => {
-    try{
+    try {
         const deletePost = await Post.destroy({
             where: {
                 ...req.params,

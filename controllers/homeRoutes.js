@@ -24,17 +24,15 @@ router.get('/', async (req, res) => {
     res.render('all-posts', {
       // render all-posts from html handle bars and pass in posts from the database and make sure user logged in
       posts,
-      logged_in: req.session.logged_in
+      loggedIn: req.session.loggedIn
     });
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
-
-
 router.get('/login', (req, res) => {
-  if (req.session.logged_in) {
+  if (req.session.loggedIn) {
     res.redirect('/');
     return;
   }
@@ -52,32 +50,33 @@ router.get('/signup', (req, res) => {
 // route for 1 post when user clicks on
 // This route must be below the login/signup why???
 router.get('/post/:id', withAuth, async (req, res) => {
-  try{
-    const postData = await Post.findByPk(req.params.id, {
-      include : [{
-        model: User,
-      },
-      {
-        model: Comment,
-      },
-    ]})
+  try {
+      const postData = await Post.findByPk(req.params.id, {
+          include: [{
+              model: User,
+          },
+          {
+              model: Comment,
+          },
+          ]
+      })
 
-    const post = postData.map((post) => post.get({ plaine: true}))
-    const comment = postData.comments.map((comment) => comment.get({ plain: true}))
+      const post = postData.map((post) => post.get({ plaine: true }))
+      const comment = postData.comments.map((comment) => comment.get({ plain: true }))
 
-    if (!post) {
-      res.status(404).json({ message: 'No post found with that ID.' });
-      return;
+      if (!post) {
+          res.status(404).json({ message: 'No post found with that ID.' });
+          return;
+      }
+
+      res.render('single-post', {
+          post,
+          comment,
+          loggedIn: req.session.loggedIn
+      })
   }
-    
-    res.render('single-post', {
-      post,
-      comment,
-      logged_in: req.session.logged_in
-    })
-  }
-  catch (err){
-    res.status(500).json(err);
+  catch (err) {
+      res.status(500).json(err);
   }
 });
 

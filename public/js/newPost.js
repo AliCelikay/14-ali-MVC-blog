@@ -1,6 +1,6 @@
 const newPostForm = $('#new-post-form');
 
-// In sql, in the posts table, there is a userId collumn, where is that coming from
+// In sql, in the posts table, there is a userId collumn i cant grab it because it is null
 
 async function newPostHandler(event) {
     event.preventDefault();

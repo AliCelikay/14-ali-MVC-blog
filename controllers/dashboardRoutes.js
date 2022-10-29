@@ -18,7 +18,7 @@ router.get('/', withAuth, async (req, res) => {
       res.render('all-post-admin', {
         layout: 'dashboard',
         userPosts,
-        logged_in: req.session.logged_in
+        loggedIn: req.session.loggedIn
       });
     } catch (err) {
       res.status(500).json(err);
@@ -29,7 +29,7 @@ router.get('/', withAuth, async (req, res) => {
     try {
       res.render('new-post', {
         layout: 'dashboard',
-        logged_in: req.session.logged_in
+        loggedIn: req.session.loggedIn
       });
     } catch (err) {
       res.status(500).json(err);
