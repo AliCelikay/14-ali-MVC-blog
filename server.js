@@ -3,19 +3,18 @@ const express = require('express');
 const session = require('express-session');
 const exphbs = require('express-handlebars');
 const path = require('path');
+const hbs = exphbs.create({ helpers });
 // Custom Packages
 const routes = require('./controllers');
 const sequelize = require('./config/connection');
 const helpers = require('./utils/helpers');
 // For SECRET
 require('dotenv').config();
-
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-const hbs = exphbs.create({ helpers });
 
 //new (sess)ion object for storing data
 const sess = {

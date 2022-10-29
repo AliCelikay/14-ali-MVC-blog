@@ -31,33 +31,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// dashboard route
-// withAuth will redirect to login/signup if not logged in/signedup 
-router.get('/dashboard', withAuth, async (req, res) => {
-  try {
-    const postsData = await Post.findAll({
-      include: [
-        {
-          model: User,
-        },
-      ],
-      // to specific user dashboard
-      // where: {
-      //   user_id: req.session.user_id
-      // }
-    });
 
-    const userPosts = postsData.map((posts) => posts.get({ plain: true }));
-    console.log(userPosts);
-    res.render('all-post-admin', {
-      layout: 'dashboard',
-      userPosts,
-      logged_in: req.session.logged_in
-    });
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
 
 router.get('/login', (req, res) => {
   if (req.session.logged_in) {
@@ -77,9 +51,9 @@ router.get('/signup', (req, res) => {
 
 // route for 1 post when user clicks on
 // This route must be below the login/signup why???
-router.get('/:postId', withAuth, async (req, res) => {
+router.get('/post/:id', withAuth, async (req, res) => {
   try{
-    const postData = await Post.findByPk(req.params.postId, {
+    const postData = await Post.findByPk(req.params.id, {
       include : [{
         model: User,
       },
