@@ -23,6 +23,7 @@ router.get('/', async (req, res) => {
     // (2) then rendering and checking if logged in
     res.render('all-posts', {
       // render all-posts from html handle bars and pass in posts from the database and make sure user logged in
+      layout: 'main',
       posts,
       loggedIn: req.session.loggedIn
     });
