@@ -66,9 +66,8 @@ router.get('/post/:id', withAuth, async (req, res) => {
           },
         ],
       })
-
-      const post = postData.map((post) => post.get({ plaine: true }))
-
+      // console.log(postData);
+      const post = postData.get({ plaine: true });
       if (!post) {
           res.status(404).json({ message: 'No post found with that ID.' });
           return;
