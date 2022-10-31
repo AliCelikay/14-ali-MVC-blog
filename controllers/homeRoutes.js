@@ -9,9 +9,11 @@ router.get('/', async (req, res) => {
     // Get all posts and JOIN with user data
     // (1)grabbing all data first...
     const postsData = await Post.findAll({
+      // include the model User and grab the username collumn attribute to use in handlebars
       include: [
         {
           model: User,
+          attributes: ['username'],
         },
       ],
     });
@@ -53,17 +55,19 @@ router.get('/signup', (req, res) => {
 router.get('/post/:id', withAuth, async (req, res) => {
   try {
       const postData = await Post.findByPk(req.params.id, {
-          include: [{
-              model: User,
+        include: [
+          {
+            model: User,
+            attributes: ['username'],
           },
           {
-              model: Comment,
+            model: Comment,
+            attributes: ['body'], 
           },
-          ]
+        ],
       })
 
       const post = postData.map((post) => post.get({ plaine: true }))
-      const comment = postData.comments.map((comment) => comment.get({ plain: true }))
 
       if (!post) {
           res.status(404).json({ message: 'No post found with that ID.' });
@@ -71,8 +75,8 @@ router.get('/post/:id', withAuth, async (req, res) => {
       }
 
       res.render('single-post', {
+          layout: 'main',
           post,
-          comment,
           loggedIn: req.session.loggedIn
       })
   }

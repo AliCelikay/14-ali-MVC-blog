@@ -9,7 +9,7 @@ router.get('/', withAuth, async (req, res) => {
     try {
       const postsData = await Post.findAll({
         where: {
-          userId: req.session.userId
+          userId: req.session.userId,
         }
       });
   

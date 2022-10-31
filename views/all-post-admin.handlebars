@@ -1,9 +1,25 @@
 <div class="posts list-group card-body">
   {{#each userPosts}}
-    <a class="list-item flex-row justify-space-between" href="/dashboard/edit/{{id}}">
-      <span>{{title}}</span>
-      <span>{{body}}</span>
-      <span>{{format_date createdAt}}</span>
-    </a>
+  <article class="card">
+    <div class="card-header flex-row justify-space-between">
+      <h2>
+        <a class="list-item flex-row justify-space-between" href="/dashboard/edit/{{id}}">{{title}}</a>
+      </h2>
+      <div>
+        Posted on {{format_date createdAt}} and Updated on {{format_date updatedAt}}
+
+      </div>
+
+    </div>
+    <div class="card-body">
+      {{body}}
+    </div>
+  </article>
   {{/each}}
 </div>
+
+{{!-- <a class="list-item flex-row justify-space-between" href="/dashboard/edit/{{id}}">
+        <span>{{title}}</span>
+        <span>{{body}}</span>
+        <span>{{format_date createdAt}}</span>
+      </a> --}}
