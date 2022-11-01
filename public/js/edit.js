@@ -1,12 +1,13 @@
 const editPostForm = $('#edit-post-form');
+const deleteBtn = $('#delete-btn');
 
 async function editPostHandler(event) {
     event.preventDefault();
 
     const postTitle = document.getElementById('post-title').value.trim();
     const postBody = document.getElementById('post-body').value.trim();
-    
-    if(postTitle && postBody) {
+
+    if (postTitle && postBody) {
         const response = await fetch(`/api/posts`, {
             method: 'PUT',
             body: JSON.stringify({
@@ -18,14 +19,31 @@ async function editPostHandler(event) {
             },
         });
 
-        if(response.ok){
+        if (response.ok) {
             document.location.replace('/dashboard');
         }
-        else{
+        else {
             alert('Failed to update post');
         }
     }
 }
 
-newPostForm.on('submit', editPostHandler);
+// const delPostHandler = async (event) => {
+//     if (event.target.hasAttribute('data-id')) {
+//         const id = event.target.getAttribute('data-id');
+//         console.log(`IDIDID: ${id}`);
+//         const response = await fetch(`/api/dashboard/${id}`, {
+//             method: 'DELETE',
+//         });
 
+//         if (response.ok) {
+//             document.location.replace('/dashboard');
+//         } else {
+//             alert('Failed to delete post');
+//         }
+//     }
+// };
+
+editPostForm.on('submit', editPostHandler);
+
+deleteBtn.on('click', delPostHandler);
