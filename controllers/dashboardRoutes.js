@@ -39,9 +39,8 @@ router.get('/new', withAuth, async (req, res) => {
 router.get('/edit/:id', withAuth, async (req, res) => {
   try {
     const postData = await Post.findByPk(req.params.id);
-    
 
-    const post = postData.get({ plaine: true });
+    const post = postData.get({ plain: true });
     // console.log(`POST 2 DATA: ${post}`);
     if (!post) {
         res.status(404).json({ message: 'No post found with that ID.' });
@@ -59,6 +58,7 @@ router.get('/edit/:id', withAuth, async (req, res) => {
   }
 })
 
+// Post edit route
 // router.put('/edit/:id', withAuth, async (req, res) => {
 //   try {
 //     const postData = await Post.findByPk(req.params.id);

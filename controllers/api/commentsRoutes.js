@@ -11,10 +11,10 @@ router.post('/', withAuth, async (req, res) => {
             // body: req.body.body
             userId : req.session.userId,
             postId: req.session.postId,
-        })
+        });
 
-        res.status(200).json(newComment);
-        
+        res.json(newComment);
+    
     }
     catch (err) {
         res.status(400).json(err);

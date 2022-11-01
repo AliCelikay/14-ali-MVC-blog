@@ -28,21 +28,20 @@ async function editPostHandler(event) {
     }
 }
 
-// const delPostHandler = async (event) => {
-//     if (event.target.hasAttribute('data-id')) {
-//         const id = event.target.getAttribute('data-id');
-//         console.log(`IDIDID: ${id}`);
-//         const response = await fetch(`/api/dashboard/${id}`, {
-//             method: 'DELETE',
-//         });
+const delPostHandler = async (event) => {
 
-//         if (response.ok) {
-//             document.location.replace('/dashboard');
-//         } else {
-//             alert('Failed to delete post');
-//         }
-//     }
-// };
+    const id = $('#post-id').attr('data-id').val();
+    const response = await fetch(`/api/dashboard/${id}`, {
+        method: 'DELETE',
+    });
+
+    if (response.ok) {
+        document.location.replace('/dashboard');
+    } else {
+        alert('Failed to delete post');
+    }
+
+};
 
 editPostForm.on('submit', editPostHandler);
 
