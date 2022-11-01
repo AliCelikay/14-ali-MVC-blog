@@ -1,6 +1,6 @@
-const newPostForm = $('#new-post-form');
+const editPostForm = $('#edit-post-form');
 
-async function newPostHandler(event) {
+async function editPostHandler(event) {
     event.preventDefault();
 
     const postTitle = document.getElementById('post-title').value.trim();
@@ -8,7 +8,7 @@ async function newPostHandler(event) {
     
     if(postTitle && postBody) {
         const response = await fetch(`/api/posts`, {
-            method: 'POST',
+            method: 'PUT',
             body: JSON.stringify({
                 title: postTitle,
                 body: postBody
@@ -22,9 +22,10 @@ async function newPostHandler(event) {
             document.location.replace('/dashboard');
         }
         else{
-            alert('Failed to create post');
+            alert('Failed to update post');
         }
     }
 }
 
-newPostForm.on('submit', newPostHandler);
+newPostForm.on('submit', editPostHandler);
+

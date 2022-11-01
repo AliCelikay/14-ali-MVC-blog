@@ -58,16 +58,17 @@ router.get('/post/:id', withAuth, async (req, res) => {
         include: [
           {
             model: User,
-            attributes: ['username'],
+            // attributes: ['username'],
           },
           {
             model: Comment,
-            attributes: ['body'], 
+            // attributes: ['body'], 
           },
         ],
       })
       // console.log(postData);
       const post = postData.get({ plaine: true });
+      console.log(`POST 2 DATA: ${post}`);
       if (!post) {
           res.status(404).json({ message: 'No post found with that ID.' });
           return;
