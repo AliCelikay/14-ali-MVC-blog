@@ -17,8 +17,13 @@
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
       <li class="nav-item active"><a class="nav-link" href="/dashboard">Dashboard</a></li>
-      <li class="nav-item active"><a class="nav-link" href="/login">Login</a></li>
-      <li class="nav-item active"><a class="nav-link" href="#" id="logout-link">Logout</a></li>
+      <li class="nav-item active">
+        {{#if loggedIn}}
+              <a class="nav-link" href="#" id="logout-link">Logout</a>
+              {{else}}
+              <a class="nav-link" href="/login">Login</a>
+              {{/if}}
+      </li>
     </ul>
   </nav>
   <div class="hero bg-light pl-4">
