@@ -3,6 +3,8 @@ const router = require('express').Router();
 const { Comment, Post, User } = require('../models');
 const withAuth = require('../utils/auth');
 
+// /api/dashboard
+
 // dashboard route
 // withAuth will redirect to login/signup if not logged in/signedup 
 router.get('/', withAuth, async (req, res) => {
@@ -36,67 +38,68 @@ router.get('/new', withAuth, async (req, res) => {
   }
 });
 
+// get by single id
 router.get('/edit/:id', withAuth, async (req, res) => {
   try {
     const postData = await Post.findByPk(req.params.id);
 
     const post = postData.get({ plain: true });
-    // console.log(`POST 2 DATA: ${post}`);
-    if (!post) {
-        res.status(404).json({ message: 'No post found with that ID.' });
-        return;
-    }
 
     res.render('edit-post', {
-        layout: 'dashboard',
-        post,
-        loggedIn: req.session.loggedIn
+      layout: 'dashboard',
+      post,
+      loggedIn: req.session.loggedIn
     })
+  }
+  catch (err) {
+    res.status(500).json(err);
+  }
+})
+
+// Put edit route
+router.put('/edit/:id', async (req, res) => {
+  try {
+    const updatePost = await Post.update(req.body, {
+      where: {
+        ...req.params,
+      }
+    });
+
+    if (!updatePost) {
+      console.log('No post found');
+      res.status(404).json();
+    }
+    else {
+      res.status(200).json(updatePost);
+    }
+    
 }
   catch (err) {
     res.status(500).json(err);
   }
 })
 
-// Post edit route
-// router.put('/edit/:id', withAuth, async (req, res) => {
-//   try {
-//     const postData = await Post.findByPk(req.params.id);
-    
-
-//     const post = postData.get({ plaine: true });
-//     // console.log(`POST 2 DATA: ${post}`);
-//     if (!post) {
-//         res.status(404).json({ message: 'No post found with that ID.' });
-//         return;
-//     }
-
-//     res.render('edit-post', {
-//         layout: 'dashboard',
-//         post,
-//         loggedIn: req.session.loggedIn
-//     })
-// }
-//   catch (err) {
-//     res.status(500).json(err);
-//   }
-// })
 
 // route to delete a post
-router.delete('/:id', withAuth, async (req, res) => {
+router.delete('/edit/:id', async (req, res) => {
   try {
-      const deletePost = await Post.destroy({
-          where: {
-              ...req.params,
-              // id: req.params.id
-              userId: req.session.userId,
-          }
-      });
+    const deletePost = await Post.destroy({
+      where: {
+        ...req.params,
+        // id: req.params.id
+      }
+    });
 
+    if (!deletePost) {
+      res.status(404).json()
+      console.log('No post found');
+    }
+    else {
       res.status(200).json(deletePost);
+    }
   }
   catch (err) {
-      res.status(500).json(err);
+    res.status(500).json(err);
   }
 })
 

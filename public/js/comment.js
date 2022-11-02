@@ -6,6 +6,7 @@ async function newCommentHandler(event) {
     const commentBody = document.getElementById('comment-body').value.trim();
     
     if(commentBody) {
+        // This fetch api is happening front end, this route must match the backend route
         const response = await fetch(`/api/comments`, {
             method: 'POST',
             body: JSON.stringify({

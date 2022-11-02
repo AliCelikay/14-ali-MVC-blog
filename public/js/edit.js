@@ -1,14 +1,16 @@
-const editPostForm = $('#edit-post-form');
+const updateBtn = $('#update-btn');
 const deleteBtn = $('#delete-btn');
+const postId = $('input[name="post-id"]').attr('data-id');
 
-async function editPostHandler(event) {
+const editPostHandler = async (event) => {
     event.preventDefault();
 
+    console.log(`Id: ${postId}`);
     const postTitle = document.getElementById('post-title').value.trim();
     const postBody = document.getElementById('post-body').value.trim();
 
     if (postTitle && postBody) {
-        const response = await fetch(`/api/posts`, {
+        const response = await fetch(`/dashboard/edit/${postId}`, {
             method: 'PUT',
             body: JSON.stringify({
                 title: postTitle,
@@ -21,17 +23,17 @@ async function editPostHandler(event) {
 
         if (response.ok) {
             document.location.replace('/dashboard');
-        }
-        else {
+        } else {
             alert('Failed to update post');
         }
     }
-}
+};
 
-const delPostHandler = async (event) => {
+const deletePostHandler = async (event) => {
+    event.preventDefault();
 
-    const id = $('#post-id').attr('data-id').val();
-    const response = await fetch(`/api/dashboard/${id}`, {
+    console.log(`Id: ${postId}`);
+    const response = await fetch(`/dashboard/edit/${postId}`, {
         method: 'DELETE',
     });
 
@@ -43,6 +45,6 @@ const delPostHandler = async (event) => {
 
 };
 
-editPostForm.on('submit', editPostHandler);
+updateBtn.on('click', editPostHandler);
 
-deleteBtn.on('click', delPostHandler);
+deleteBtn.on('click', deletePostHandler);

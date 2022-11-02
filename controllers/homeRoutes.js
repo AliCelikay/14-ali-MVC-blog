@@ -53,7 +53,7 @@ router.get('/signup', (req, res) => {
 // route for 1 post when user clicks on
 // Note: I recieved help on this route from TA Sam Adams
 // This route must be below the login/signup why???
-router.get('/post/:id', async (req, res) => {
+router.get('/post/:id',withAuth, async (req, res) => {
   try {
     const postData = await Post.findByPk(req.params.id, {
       include: [
