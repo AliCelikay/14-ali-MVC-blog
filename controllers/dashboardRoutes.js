@@ -4,7 +4,6 @@ const { Comment, Post, User } = require('../models');
 const withAuth = require('../utils/auth');
 
 // /api/dashboard
-
 // dashboard route
 // withAuth will redirect to login/signup if not logged in/signedup 
 router.get('/', withAuth, async (req, res) => {
@@ -27,6 +26,7 @@ router.get('/', withAuth, async (req, res) => {
   }
 });
 
+// /api/dashboard/new
 router.get('/new', withAuth, async (req, res) => {
   try {
     res.render('new-post', {
@@ -39,6 +39,7 @@ router.get('/new', withAuth, async (req, res) => {
 });
 
 // get by single id
+// /api/dashboard/edit/:id
 router.get('/edit/:id', withAuth, async (req, res) => {
   try {
     const postData = await Post.findByPk(req.params.id);
@@ -57,6 +58,7 @@ router.get('/edit/:id', withAuth, async (req, res) => {
 })
 
 // Put edit route
+// /api/dashboard/edit/:id
 router.put('/edit/:id', async (req, res) => {
   try {
     const updatePost = await Post.update(req.body, {
@@ -81,6 +83,7 @@ router.put('/edit/:id', async (req, res) => {
 
 
 // route to delete a post
+// /api/dashboard/edit/:id
 router.delete('/edit/:id', async (req, res) => {
   try {
     const deletePost = await Post.destroy({

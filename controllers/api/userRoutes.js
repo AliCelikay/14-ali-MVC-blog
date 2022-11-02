@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { User } = require('../../models');
 
 // Route for signing up and creating a new user
+// /api/users/signup
 router.post('/signup', async (req, res) => {
   try {
     // req.body should containe the same column names 
@@ -23,6 +24,7 @@ router.post('/signup', async (req, res) => {
 });
 
 //Route for logging in
+// /api/users/login
 router.post('/login', async (req, res) => {
   try {
     const userData = await User.findOne({ where: { username: req.body.username } });
@@ -56,6 +58,7 @@ router.post('/login', async (req, res) => {
 });
 
 // Route for logging out
+// /api/users/logout
 router.post('/logout', (req, res) => {
   if (req.session.loggedIn) {
     req.session.destroy(() => {
